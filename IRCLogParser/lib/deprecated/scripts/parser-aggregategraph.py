@@ -15,7 +15,7 @@ import pygraphviz as pygraphviz
 x=[[] for i in range(5000)]
 
 xarr=[[] for i in range(5000)]
-for i in xrange(0,5000):
+for i in range(0,5000):
 	xarr[i].append(0)
 
 #sum=0
@@ -73,11 +73,11 @@ for iterator in range(1,13):
 
 
 
-		for i in xrange(0,len(picks)):
+		for i in range(0,len(picks)):
 			if picks[i][1:-1] not in nicks:
 				nicks.append(picks[i][1:-1])     #removed <> from the nicknames
 				
-		for i in xrange(0,len(nicks)):
+		for i in range(0,len(nicks)):
 			if(nicks[i][len(nicks[i])-1]=='\\'):
 				nicks[i]=nicks[i][:-1]
 				nicks[i]=nicks[i]+'CR'
@@ -202,7 +202,7 @@ for iterator in range(1,2):
 					data[1]=data[1][1:]
 					if not data[1]:
 						break
-					for ik in xrange(0,len(data)):
+					for ik in range(0,len(data)):
 						if(data[ik] and data[ik][len(data[ik])-1]=='\\'):
 							data[ik]=data[ik][:-1]
 							data[ik]=data[ik] + 'CR'
@@ -215,7 +215,7 @@ for iterator in range(1,2):
 										second=L[d][0]
 										break
 										
-								for rt in xrange(0,5000):
+								for rt in range(0,5000):
 									if (pehla in xarr[rt] and second in xarr[rt]):
 										if (pehla == xarr[rt][1] and second == xarr[rt][2]):
 											xarr[rt][0]=xarr[rt][0]+1
@@ -229,7 +229,7 @@ for iterator in range(1,2):
 					if "," in data[1]: 
 						flag_comma = 1
 						data1=[e.strip() for e in data[1].split(',')]
-						for ij in xrange(0,len(data1)):
+						for ij in range(0,len(data1)):
 							if(data1[ij] and data1[ij][len(data1[ij])-1]=='\\'):
 								data1[ij]=data1[ij][:-1]
 								data1[ij]=data1[ij] + 'CR'
@@ -242,7 +242,7 @@ for iterator in range(1,2):
 											second=L[d][0]
 											break
 										
-									for rt in xrange(0,5000):
+									for rt in range(0,5000):
 										if (pehla in xarr[rt] and second in xarr[rt]):
 											if (pehla == xarr[rt][1] and second == xarr[rt][2]):
 												xarr[rt][0]=xarr[rt][0]+1
@@ -267,7 +267,7 @@ for iterator in range(1,2):
 										second=L[d][0]
 										break
 									
-								for rt in xrange(0,5000):
+								for rt in range(0,5000):
 									if (pehla in xarr[rt] and second in xarr[rt]): 
 										if (pehla == xarr[rt][1] and second == xarr[rt][2]):
 											xarr[rt][0]=xarr[rt][0]+1
@@ -281,7 +281,7 @@ for iterator in range(1,2):
 	
 		
 
-		for fin in xrange(0,5000):                           # We go on adding the two vertices and their edge weights to our graph.However we dont
+		for fin in range(0,5000):                           # We go on adding the two vertices and their edge weights to our graph.However we dont
 			if(len(xarr[fin])==3):                 #draw any graphs till the very end.
 				G1.add_edge(xarr[fin][1],xarr[fin][2],weight=xarr[fin][0])  
 				sumo=sumo+xarr[fin][0]      #ignore sumo. I had used it to verify some different result.
@@ -319,7 +319,7 @@ print(len(ccs))
 
 '''
 
-print(nx.adjacency_matrix(G))  
+print((nx.adjacency_matrix(G)))  
 
 
 

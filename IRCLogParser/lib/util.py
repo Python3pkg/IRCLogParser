@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 import igraph
-import config
+from . import config
 
 def correctLastCharCR(inText):#
     """ if the last letter of the nick is '\\' replace it by 'CR'
@@ -139,7 +139,7 @@ def extend_conversation_list(nick_sender, nick_receiver, conversation):
         Returns:
             conversation (list): list containg all the nick between whom messages have been shared
     """
-    for i in xrange(0,config.MAX_EXPECTED_DIFF_NICKS):
+    for i in range(0,config.MAX_EXPECTED_DIFF_NICKS):
         if (nick_sender in conversation[i] and nick_receiver in conversation[i]):
             if (nick_sender == conversation[i][1] and nick_receiver == conversation[i][2]):
                 conversation[i][0] += 1

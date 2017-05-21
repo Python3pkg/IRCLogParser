@@ -31,7 +31,7 @@ def fuzzyCMeans(log_directory, channel_name, output_directory, startingDate, sta
 		# print "WORDS", " ".join(user_words_dict['words'])
 		corpus.append(" ".join(map(str,user_words_dict['words'])))
 
-	print "No. of users", len(corpus)
+	print("No. of users", len(corpus))
 
 	#TF_IDF
 	stop_word_without_apostrophe=[]
@@ -42,11 +42,11 @@ def fuzzyCMeans(log_directory, channel_name, output_directory, startingDate, sta
 	
 	vectorizer = TfidfVectorizer(max_df=0.5, min_df=2, stop_words=stop_words_extended,
 																																use_idf=True)
-	print "Extracting features from the training dataset using TF-IDF"
+	print("Extracting features from the training dataset using TF-IDF")
 	t0 = time()
 	tf_idf = vectorizer.fit_transform(corpus)
-	print("done in %fs" % (time() - t0))
-	print "n_samples: %d, n_features: %d \n" % tf_idf.shape
+	print(("done in %fs" % (time() - t0)))
+	print("n_samples: %d, n_features: %d \n" % tf_idf.shape)
 
 	# LSA
 	if do_SVD:
@@ -62,11 +62,11 @@ def fuzzyCMeans(log_directory, channel_name, output_directory, startingDate, sta
 
 		tf_idf = lsa.fit_transform(tf_idf)
 
-		print("done in %fs" % (time() - t0))
+		print(("done in %fs" % (time() - t0)))
 
 		explained_variance = svd.explained_variance_ratio_.sum()
-		print("Explained variance of the SVD step: {}%".format(
-						int(explained_variance * 100)))
+		print(("Explained variance of the SVD step: {}%".format(
+						int(explained_variance * 100))))
 
 	np.set_printoptions(threshold=np.inf)
 	#clusters
@@ -74,7 +74,7 @@ def fuzzyCMeans(log_directory, channel_name, output_directory, startingDate, sta
 	centroids, U, U0, d, Jm, p, fpc = fuzz.cluster.cmeans(
 			tf_idf_transpose, number_of_clusters, 2., error=0.005, maxiter=1000, init=None)
 
-	print "CENTROIDS", centroids
+	print("CENTROIDS", centroids)
 
 	if do_SVD:
 		original_space_centroids = svd.inverse_transform(centroids)
@@ -82,12 +82,12 @@ def fuzzyCMeans(log_directory, channel_name, output_directory, startingDate, sta
 	else:
 		order_centroids = centroids.argsort()[:, ::-1]
 
-	print "original_space_centroids", original_space_centroids
-	print "order_centroids", order_centroids
+	print("original_space_centroids", original_space_centroids)
+	print("order_centroids", order_centroids)
 
 	terms = vectorizer.get_feature_names()
 	for i in range(number_of_clusters):
-		print("Cluster %d:" % i)
+		print(("Cluster %d:" % i))
 		for ind in order_centroids[i, :words_to_show_per_cluster]:
-			print(' %s' % terms[ind])
+			print((' %s' % terms[ind]))
 		print()

@@ -46,14 +46,14 @@ def message_number_graph(log_dict, nicks, nick_same_list, DAY_BY_DAY_ANALYSIS=Fa
                         conversations = util.extend_conversation_list(nick_sender, nick_receiver, conversations)
 
     def message_no_add_egde(message_graph, conversation):
-        for index in xrange(config.MAX_EXPECTED_DIFF_NICKS):
+        for index in range(config.MAX_EXPECTED_DIFF_NICKS):
             if(len(conversation[index]) == 3 and conversation[index][0] >= config.THRESHOLD_MESSAGE_NUMBER_GRAPH):
                 if len(conversation[index][1]) >= config.MINIMUM_NICK_LENGTH and len(conversation[index][2]) >= config.MINIMUM_NICK_LENGTH:
                     message_graph.add_edge(conversation[index][1], conversation[index][2], weight=conversation[index][0])
         return message_graph
 
 
-    for day_content_all_channels in log_dict.values():
+    for day_content_all_channels in list(log_dict.values()):
         for day_content in day_content_all_channels:
             day_log = day_content["log_data"]
             today_conversation = [[0] for i in range(config.MAX_EXPECTED_DIFF_NICKS)]
@@ -78,7 +78,7 @@ def message_number_graph(log_dict, nicks, nick_same_list, DAY_BY_DAY_ANALYSIS=Fa
                         if "," in rec_list[1]:
                             flag_comma = 1
                             rec_list_2=[e.strip() for e in rec_list[1].split(',')]
-                            for i in xrange(0,len(rec_list_2)):
+                            for i in range(0,len(rec_list_2)):
                                 if(rec_list_2[i]):
                                     rec_list_2[i] = util.correctLastCharCR(rec_list_2[i])                            
                             msg_no_analysis_helper(rec_list_2, corrected_nick, nick, conn_comp_list, conversations, today_conversation)                
@@ -97,15 +97,15 @@ def message_number_graph(log_dict, nicks, nick_same_list, DAY_BY_DAY_ANALYSIS=Fa
                 year, month, day = util.get_year_month_day(day_content)
                 message_number_day_list.append([today_message_number_graph, year+'-'+month+'-'+day])
 
-    print "\nBuilding graph object with EDGE WEIGHT THRESHOLD:", config.THRESHOLD_MESSAGE_NUMBER_GRAPH
+    print("\nBuilding graph object with EDGE WEIGHT THRESHOLD:", config.THRESHOLD_MESSAGE_NUMBER_GRAPH)
 
     if not DAY_BY_DAY_ANALYSIS:
         aggregate_message_number_graph = message_no_add_egde(aggregate_message_number_graph, conversations)
         
 
     if config.DEBUGGER:
-        print "========> 30 on " + str(len(conversations)) + " conversations"
-        print conversations[:30]
+        print("========> 30 on " + str(len(conversations)) + " conversations")
+        print(conversations[:30])
 
     if DAY_BY_DAY_ANALYSIS:
         return message_number_day_list
@@ -171,7 +171,7 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
             CU_adjacency_matrix[channels_hash.index(channel[0])][nicks_hash.index(adjlist['nickname'])] = channel[1]
             # print adjlist['nickname'], channel[0]
            
-            if users_on_channel.has_key(channel[0]):
+            if channel[0] in users_on_channel:
                 if adjlist['nickname'] not in users_on_channel[channel[0]]:
                     users_on_channel[channel[0]].append(adjlist['nickname'])
             else:
@@ -179,7 +179,7 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
     
     presence_graph_and_matrix["CU"]["matrix"] = CU_adjacency_matrix
     presence_graph_and_matrix["CU"]["graph"] = channel_user_graph  
-    print "CU Adjacency Matrix Generated"
+    print("CU Adjacency Matrix Generated")
 
     #====================== CHANNEL_CHANNEL ============================
     channel_channel_graph = nx.Graph()    
@@ -189,8 +189,8 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
         graph.add_edge(str(config.STARTING_HASH_CHANNEL + index1), str(config.STARTING_HASH_CHANNEL + index2), weight=len(common_users))
         return graph
 
-    for i in xrange(0, len(channels_hash)):
-        for j in xrange(i+1, len(channels_hash)):
+    for i in range(0, len(channels_hash)):
+        for j in range(i+1, len(channels_hash)):
             common_users = list(set(users_on_channel[channels_hash[i]]) & set(users_on_channel[channels_hash[j]]))
             # print users_on_channel.keys()[i], users_on_channel.keys()[j], common_users
             CC_adjacency_matrix[i][j] = len(common_users)
@@ -209,19 +209,19 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
     
     presence_graph_and_matrix["CC"]["matrix"] = CC_adjacency_matrix
     presence_graph_and_matrix["CC"]["graph"] = channel_channel_graph
-    print "CC Adjacency Matrix Generated"
+    print("CC Adjacency Matrix Generated")
     
     #====================== USER_USER ============================
     user_user_graph = nx.Graph()   
     UU_adjacency_matrix = create_adj_matrix(nicks_hash, nicks_hash)
     for user_channel_dict in channels_for_user:
         # user_channel_dict format : {nick : [channels on that day], }
-        for i in xrange(0, len(user_channel_dict.keys())):
-            for j in xrange(i+1, len(user_channel_dict.keys())):
-                common_channels_on_that_day = list(set(user_channel_dict[user_channel_dict.keys()[i]]) & set(user_channel_dict[user_channel_dict.keys()[j]]))
+        for i in range(0, len(list(user_channel_dict.keys()))):
+            for j in range(i+1, len(list(user_channel_dict.keys()))):
+                common_channels_on_that_day = list(set(user_channel_dict[list(user_channel_dict.keys())[i]]) & set(user_channel_dict[list(user_channel_dict.keys())[j]]))
                 # print user_channel_dict.keys()[i], user_channel_dict.keys()[j], common_channels_on_that_day
-                user1 = user_channel_dict.keys()[i]
-                user2 = user_channel_dict.keys()[j]
+                user1 = list(user_channel_dict.keys())[i]
+                user2 = list(user_channel_dict.keys())[j]
                 no_of_common_channels_day = len(common_channels_on_that_day)
                 # print str(nicks_hash.index(user1))+"\t"+str(nicks_hash.index(user2))
                 # "Uncomment for directed version"
@@ -240,18 +240,18 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
 
     presence_graph_and_matrix["CU"]["matrix"] = UU_adjacency_matrix
     presence_graph_and_matrix["CU"]["graph"] = user_user_graph
-    print "UU Adjacency Matrix Generated"
+    print("UU Adjacency Matrix Generated")
 
     def print_node_degree(nodes, max_degree_possible):
         for i in range(max_degree_possible):
-            print "deg"+str(i)+'\t'+str(nodes[i])
+            print("deg"+str(i)+'\t'+str(nodes[i]))
 
-    degree_map = {"out": full_presence_graph.out_degree().values(), "in": full_presence_graph.in_degree().values(), "all": full_presence_graph.degree().values()}
+    degree_map = {"out": list(full_presence_graph.out_degree().values()), "in": list(full_presence_graph.in_degree().values()), "all": list(full_presence_graph.degree().values())}
 
     def inc_degree(degree_list, nodes, max_degree_possible):        
         for degree in degree_list:
             if not degree < max_degree_possible:
-                print "===error", degree
+                print("===error", degree)
             nodes[degree] += 1    
         return nodes
 
@@ -270,13 +270,13 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
         nodes_with_IN_degree = inc_degree(degree_map["in"], nodes_with_IN_degree, max_degree_possible)
         nodes_with_TOTAL_degree = inc_degree(degree_map["all"], nodes_with_TOTAL_degree, max_degree_possible)        
 
-        print "========= OUT DEGREE ======="        
+        print("========= OUT DEGREE =======")        
         print_node_degree(nodes_with_OUT_degree, max_degree_possible) 
 
-        print "========= IN DEGREE ======="        
+        print("========= IN DEGREE =======")        
         print_node_degree(nodes_with_IN_degree, max_degree_possible) 
 
-        print "========= TOTAL DEGREE ======="        
+        print("========= TOTAL DEGREE =======")        
         print_node_degree(nodes_with_TOTAL_degree, max_degree_possible) 
 
     #=========================================================================
@@ -302,7 +302,7 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
         sum_for_each_channel.append(sum(channel_row))
 
     def get_top_indices(sum_list, how_many_vals):        
-        return sorted(range(len(sum_list)), key=lambda i: sum_list[i], reverse=True)[:how_many_vals]
+        return sorted(list(range(len(sum_list))), key=lambda i: sum_list[i], reverse=True)[:how_many_vals]
 
     def get_indices_to_delete(hash_list, top_indices):
         return list(set([i for i in range(len(hash_list))]) - set(top_indices))
@@ -314,10 +314,10 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
     temp_channels = np.delete(CC_adjacency_matrix, indices_to_delete_channels, 1) #delete columns
     reduced_CC_adjacency_matrix = np.delete(temp_channels, indices_to_delete_channels, 0) #delete rows
     presence_graph_and_matrix["CC"]["reducedMatrix"] = reduced_CC_adjacency_matrix
-    print "Generated Reduced CC Adjacency Matrix"
+    print("Generated Reduced CC Adjacency Matrix")
 
     #to calculate sum first take the transpose of CU matrix so users in row
-    UC_adjacency_matrix = zip(*CU_adjacency_matrix)
+    UC_adjacency_matrix = list(zip(*CU_adjacency_matrix))
     sum_for_each_user = []
 
     for user_row in UC_adjacency_matrix:
@@ -339,25 +339,25 @@ def channel_user_presence_graph_and_csv(nicks, nick_same_list, channels_for_user
     temp_user_channel = np.delete(CU_adjacency_matrix, indices_to_delete_users, 1) #delete columns
     reduced_CU_adjacency_matrix = np.delete(temp_user_channel, indices_to_delete_channels, 0) #delete rows
 
-    print "Generated Reduced CU Adjacency Matrix"
+    print("Generated Reduced CU Adjacency Matrix")
     presence_graph_and_matrix["CU"]["reducedMatrix"] = reduced_CU_adjacency_matrix
 
     #update the UU matrix by deleting both columns and rows
     temp_users = np.delete(UU_adjacency_matrix, indices_to_delete_users, 1) #delete columns
     reduced_UU_adjacency_matrix = np.delete(temp_users, indices_to_delete_users, 0) #delete rows
-    print "Generated Reduced UU Adjacency Matrix"
+    print("Generated Reduced UU Adjacency Matrix")
     presence_graph_and_matrix["UU"]["reducedMatrix"] = reduced_UU_adjacency_matrix
 
     if config.PRINT_CHANNEL_USER_HASH:
-        print "=================================================="
+        print("==================================================")
 
-        print "========= REDUCED NICK HASH ========="
+        print("========= REDUCED NICK HASH =========")
         for i in range(len(reduced_nick_hash)):
-            print str(i)+"\t"+reduced_nick_hash[i]
+            print(str(i)+"\t"+reduced_nick_hash[i])
         
-        print "========= REDUCED CHANNEL HASH ========="
+        print("========= REDUCED CHANNEL HASH =========")
         for i in range(len(reduced_channel_hash)):
-            print str(config.STARTING_HASH_CHANNEL + i)+"\t"+reduced_channel_hash[i]
+            print(str(config.STARTING_HASH_CHANNEL + i)+"\t"+reduced_channel_hash[i])
 
     return presence_graph_and_matrix, full_presence_graph
 
@@ -384,24 +384,24 @@ def filter_edge_list(edgelist_file_loc, max_hash, how_many_top):
             degrees[int(a)] += 1
             degrees[int(b)] += 1
 
-    print "Done Pre Computation"
-    print "Max_hash", max(node_list)
+    print("Done Pre Computation")
+    print("Max_hash", max(node_list))
 
     max_hash = max(node_list)
     degrees = np.array(degrees)
 
-    print "========TOP "+str(how_many_top)+" NODES ON BASIS OF DEGREE ========"
+    print("========TOP "+str(how_many_top)+" NODES ON BASIS OF DEGREE ========")
 
     top_nodes = list(degrees.argsort()[::-1])[:how_many_top]
     # print top_nodes
-    print "======= UPDATED ADJACENY LIST ON THE BASIS OF ABOVE NODES ======="
+    print("======= UPDATED ADJACENY LIST ON THE BASIS OF ABOVE NODES =======")
 
     with open(edgelist_file_loc) as f:
         content = f.readlines()
         for line in content:
-            a, b = map(int, line.split())
+            a, b = list(map(int, line.split()))
             if a in top_nodes and b in top_nodes:
-                print str(a) + "\t" + str(b)
+                print(str(a) + "\t" + str(b))
 
 def degree_analysis_on_graph(nx_graph, date=None):
     """
@@ -415,7 +415,7 @@ def degree_analysis_on_graph(nx_graph, date=None):
     def nodes_with_degree_populator(degree_values, label): 
         nodes_with_degree = []
         if len(degree_values):
-            nodes_with_degree = [[label + str(i), 0, ''] for i in xrange((max(degree_values)+1))]
+            nodes_with_degree = [[label + str(i), 0, ''] for i in range((max(degree_values)+1))]
         else:
             nodes_with_degree = [["NA", 0, "NA"]]
 
@@ -424,9 +424,9 @@ def degree_analysis_on_graph(nx_graph, date=None):
 
         return nodes_with_degree
 
-    nodes_with_OUT_degree = nodes_with_degree_populator(nx_graph.out_degree().values(), "nodes_w_out_deg")
-    nodes_with_IN_degree = nodes_with_degree_populator(nx_graph.in_degree().values(), "nodes_w_in_deg")
-    nodes_with_TOTAL_degree = nodes_with_degree_populator(nx_graph.degree().values(), "nodes_w_deg")
+    nodes_with_OUT_degree = nodes_with_degree_populator(list(nx_graph.out_degree().values()), "nodes_w_out_deg")
+    nodes_with_IN_degree = nodes_with_degree_populator(list(nx_graph.in_degree().values()), "nodes_w_in_deg")
+    nodes_with_TOTAL_degree = nodes_with_degree_populator(list(nx_graph.degree().values()), "nodes_w_deg")
 
     def give_userlist_where_degree_helper(degree_dict, degree):
         key_list = ""
@@ -505,7 +505,7 @@ def message_time_graph(log_dict, nicks, nick_same_list, DAY_BY_DAY_ANALYSIS=Fals
      
     util.create_connected_nick_list(conn_comp_list)
 
-    for day_content_all_channels in log_dict.values():
+    for day_content_all_channels in list(log_dict.values()):
         for day_content in day_content_all_channels:
             day_log = day_content["log_data"]
             year, month, day = util.get_year_month_day(day_content)
@@ -574,7 +574,7 @@ def message_number_bins_csv(log_dict, nicks, nick_same_list):
             if(nick_spliced != messager):  
                 bins[bin_index] = bins[bin_index] + 1 
             
-    for day_content_all_channels in log_dict.values():
+    for day_content_all_channels in list(log_dict.values()):
         for day_content in day_content_all_channels:
             day_log = day_content["log_data"]
             bins = [0] * no_of_bins

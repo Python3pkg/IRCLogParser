@@ -1,6 +1,6 @@
 import re
-import config
-import util
+from . import config
+from . import util
 from datetime import date
 
 def nick_tracker(log_dict, track_users_on_channels = False):
@@ -33,7 +33,7 @@ def nick_tracker(log_dict, track_users_on_channels = False):
         return nicks, nicks_today_on_this_channel
 
 
-    for day_content_all_channels in log_dict.values():
+    for day_content_all_channels in list(log_dict.values()):
         #traverse over data of different channels for that day
         
         channels_for_user_day = {}#empty for next day usage
@@ -81,7 +81,7 @@ def nick_tracker(log_dict, track_users_on_channels = False):
                 '''
                 considered_nicks = []
                 if config.DEBUGGER:
-                    print "Analysis on", (str(day_content["auxiliary_data"]["day"]) + "-" + str(day_content["auxiliary_data"]["month"])), channel_name
+                    print("Analysis on", (str(day_content["auxiliary_data"]["day"]) + "-" + str(day_content["auxiliary_data"]["month"])), channel_name)
                 
                 for user in nicks_today_on_this_channel: 
                     f = 1
@@ -94,7 +94,7 @@ def nick_tracker(log_dict, track_users_on_channels = False):
                         user_nick = user
 
                     '''for channels of user on a day'''
-                    if channels_for_user_day.has_key(user_nick) and channel_name not in channels_for_user_day[user_nick]:
+                    if user_nick in channels_for_user_day and channel_name not in channels_for_user_day[user_nick]:
                         channels_for_user_day[user_nick].append(channel_name)
                     else:
                         channels_for_user_day[user_nick] = [channel_name]
@@ -126,10 +126,10 @@ def nick_tracker(log_dict, track_users_on_channels = False):
                 break
 
     if config.DEBUGGER:
-        print "========> 30 on " + str(len(nicks)) + " nicks"
-        print nicks[:30]
-        print "========> 30 on " + str(len(nick_same_list)) + " nick_same_list"
-        print nick_same_list[:30]
+        print("========> 30 on " + str(len(nicks)) + " nicks")
+        print(nicks[:30])
+        print("========> 30 on " + str(len(nick_same_list)) + " nick_same_list")
+        print(nick_same_list[:30])
 
     if not track_users_on_channels:
         return [nicks, nick_same_list]

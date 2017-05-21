@@ -89,7 +89,7 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 			filePath=log_directory+temp1+str(folderiterator)+"/"+temp2+str(fileiterator)+"/"+channel_name+".txt"   
 			if not os.path.exists(filePath):
 				if not((folderiterator==2 and (fileiterator ==29 or fileiterator ==30 or fileiterator ==31)) or ((folderiterator==4 or folderiterator==6 or folderiterator==9 or folderiterator==11) and fileiterator==31 )): 
-					print "[Error] Path "+filePath+" doesn't exist"
+					print("[Error] Path "+filePath+" doesn't exist")
 				continue 
 			with open(filePath) as f:
 							content = f.readlines() #contents stores all the lines of the file channel_name                             #contents stores all the lines of the file kubunutu-devel   
@@ -97,7 +97,7 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 			send_time = [] #list of all the times a user sends a message to another user
 			nicks_for_the_day = []
 			
-			print(filePath+ "For Nicks")
+			print((filePath+ "For Nicks"))
 		
 			#code for getting all the nicknames in a list
 			for i in content:
@@ -106,11 +106,11 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 					if m.group(0) not in nicks_for_the_day:                       
 						nicks_for_the_day.append(m.group(0))   #used regex to get the string between <> and appended it to the nicks list
 
-			for i in xrange(0,len(nicks_for_the_day)):
+			for i in range(0,len(nicks_for_the_day)):
 				if nicks_for_the_day[i][1:-1] not in nicks:
 					nicks.append(nicks_for_the_day[i][1:-1])     #removed <> from the nicknames
 				
-			for i in xrange(0,len(nicks)):
+			for i in range(0,len(nicks)):
 				if(len(nicks[i])!=0):
 						nicks[i]=correctLastCharCR(nicks[i])
 
@@ -189,13 +189,13 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 			filePath=log_directory+temp1+str(folderiterator)+"/"+temp2+str(fileiterator)+"/"+channel_name+".txt"   
 			if not os.path.exists(filePath):
 				if not((folderiterator==2 and (fileiterator ==29 or fileiterator ==30 or fileiterator ==31)) or ((folderiterator==4 or folderiterator==6 or folderiterator==9 or folderiterator==11) and fileiterator==31 )): 
-					print "[Error] Path "+filePath+" doesn't exist"
+					print("[Error] Path "+filePath+" doesn't exist")
 				continue 
 			with open(filePath) as f:
 							content = f.readlines() #contents stores all the lines of the file channel_name                             #contents stores all the lines of the file kubunutu-devel   
 			createvar = createvar + 1
 			nicks_for_the_day_2 = []
-			print(filePath+ "For Nodes")
+			print((filePath+ "For Nodes"))
 			
 			#code for getting all the nicknames in a list
 			for il in content:
@@ -215,7 +215,7 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 						col4.append("2013-02-01 00:00:01")
 						break
 		
-	rows = zip(col1,col2,col3,col4)   	# We store everything in a csv file which we will later import to Gephi. We are Gephi's slaves!
+	rows = list(zip(col1,col2,col3,col4))   	# We store everything in a csv file which we will later import to Gephi. We are Gephi's slaves!
 	with open('/home/dhruvie/LOP/nodesgephi_unchained.csv', 'a+') as myfile:
 					wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
 					for ro in rows:
@@ -233,12 +233,12 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 			filePath=log_directory+temp1+str(folderiterator)+"/"+temp2+str(fileiterator)+"/"+channel_name+".txt"   
 			if not os.path.exists(filePath):
 				if not((folderiterator==2 and (fileiterator ==29 or fileiterator ==30 or fileiterator ==31)) or ((folderiterator==4 or folderiterator==6 or folderiterator==9 or folderiterator==11) and fileiterator==31 )): 
-					print "[Error] Path "+filePath+" doesn't exist"
+					print("[Error] Path "+filePath+" doesn't exist")
 				continue 
 			with open(filePath) as f:
 							content = f.readlines() #contents stores all the lines of the file channel_name                             #contents stores all the lines of the file kubunutu-devel   
 			createvar_used=createvar_used+1    
-			print(filePath+ "For Edges")
+			print((filePath+ "For Edges"))
 			nickplots = [] #nickplots stores all those nicks from nicks[] list that do not have zero in and outdegree in our conversation graph
 			indegree = [] #this list stores all the indegree corresponding to a particular nick
 			outdegree = [] #this list stores all the outdegree corresponding to a particular nick
@@ -261,7 +261,7 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 						rec_list[1]=rec_list[1][1:]
 						if not rec_list[1]:
 							break
-						for ik in xrange(0,len(rec_list)):
+						for ik in range(0,len(rec_list)):
 							if(rec_list[ik]):
 								rec_list[ik]=correctLastCharCR(rec_list[ik])
 						for z in rec_list:
@@ -289,7 +289,7 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 						if "," in rec_list[1]: 
 							flag_comma = 1
 							rec_list_2=[e.strip() for e in rec_list[1].split(',')]
-							for ij in xrange(0,len(rec_list_2)):
+							for ij in range(0,len(rec_list_2)):
 								if(rec_list_2[ij]):
 									rec_list_2[ij]=correctLastCharCR(rec_list_2[ij])
 							for j in rec_list_2:
@@ -337,7 +337,7 @@ def createGephiTimelapseCSV(log_directory, channel_name, output_directory, start
 									if nick_receiver not in nickplots:
 										nickplots.append(nick_receiver) 
 						
-	edge_rows = zip(col_edge1,col_edge2,col_edge3,col_edge4,col_edge5,col_edge6)   
+	edge_rows = list(zip(col_edge1,col_edge2,col_edge3,col_edge4,col_edge5,col_edge6))   
 	with open('/home/dhruvie/LOP/edgesgephi_unchained.csv', 'a+') as myfile:
 					wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
 					for rz in edge_rows:

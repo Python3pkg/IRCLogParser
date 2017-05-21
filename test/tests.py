@@ -24,7 +24,7 @@ log_for_aug = reader.linux_input(log_directory, channel_name, "2013-8-1", "2013-
 nicks_for_aug, nick_same_list_for_aug = nick_tracker(log_for_aug)
 
 def update_expected_output_directory(log_data):
-    key = log_data.keys()[0]  #get any key as months and year will be same since log_data has monthly data
+    key = list(log_data.keys())[0]  #get any key as months and year will be same since log_data has monthly data
     global expected_output_directory
     expected_output_directory = os.path.join(current_dir, 'data/output/' + str(key.year)+'/')
     month = key.month

@@ -11,7 +11,7 @@ def validate_RT_RL_CRT(in_data, ranges, fileName):
        null
 
     """
-    for i in xrange(len(in_data)):
+    for i in range(len(in_data)):
         if not ranges[i][0] <= in_data[i] <= ranges[i][1]:
             errorMessage (i, ranges[i], in_data[i], fileName)
 
@@ -30,5 +30,5 @@ def errorMessage(value_number, expected_range, actual_value, fileName):
        null
 
     """
-    print "[Unexpected Value] of Arg", value_number, " @", fileName, "| EXPECTED_RANGE:", \
-        expected_range, "| GOT:", actual_value
+    print("[Unexpected Value] of Arg", value_number, " @", fileName, "| EXPECTED_RANGE:", \
+        expected_range, "| GOT:", actual_value)

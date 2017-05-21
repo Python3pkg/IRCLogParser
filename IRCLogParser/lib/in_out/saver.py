@@ -46,7 +46,7 @@ def draw_nx_graph(nx_graph, output_directory, output_file_name):
 
     output_file = output_directory + "/" + output_file_name + ".png"
     if config.DEBUGGER:
-        print "Generating", (output_file_name + ".png")
+        print("Generating", (output_file_name + ".png"))
 
     A = nx.nx.drawing.nx_agraph.to_agraph(nx_graph)
     A.layout(prog='dot')
@@ -67,7 +67,7 @@ def save_net_nx_graph(nx_graph, output_directory, output_file_name):
 
     """
     if config.DEBUGGER:
-        print "Generating", (output_file_name + ".net")
+        print("Generating", (output_file_name + ".net"))
     check_if_dir_exists(output_directory) #create output directory if doesn't exist
     nx.write_pajek(nx_graph, output_directory + "/" + output_file_name +".net")
 
@@ -86,7 +86,7 @@ def save_csv(matrix, output_directory, output_file_name):
 
     """
     if config.DEBUGGER:
-        print "Generating", (output_file_name + ".csv")
+        print("Generating", (output_file_name + ".csv"))
     check_if_dir_exists(output_directory) #create output directory if doesn't exist
     output_file = output_directory + "/" + output_file_name +".csv"
     with open(output_file, 'wb') as myfile:

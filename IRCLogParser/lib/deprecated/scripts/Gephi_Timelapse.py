@@ -105,11 +105,11 @@ for iterator in range(1,13):
 
 
 
-		for i in xrange(0,len(picks)):
+		for i in range(0,len(picks)):
 			if picks[i][1:-1] not in nicks:
 				nicks.append(picks[i][1:-1])     #removed <> from the nicknames
 				
-		for i in xrange(0,len(nicks)):
+		for i in range(0,len(nicks)):
 			if(nicks[i] and nicks[i][len(nicks[i])-1]=='\\'):
 				nicks[i]=nicks[i][:-1]
 				nicks[i]=nicks[i]+'CR'
@@ -233,7 +233,7 @@ for iterator in range(1,13):
 					break
 		
 
-rows = zip(col1,col2,col3,col4)    # We store everything in a csv file which we will later import to Gephi. We are Gephi's slaves!
+rows = list(zip(col1,col2,col3,col4))    # We store everything in a csv file which we will later import to Gephi. We are Gephi's slaves!
 with open('/home/dhruvie/LOP/nodesgephi.csv', 'a+') as myfile:
 				wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
 				for ro in rows:
@@ -283,7 +283,7 @@ for iterator in range(1,13):
 					data[1]=data[1][1:]
 					if not data[1]:
 						break
-					for ik in xrange(0,len(data)):
+					for ik in range(0,len(data)):
 						if(data[ik] and data[ik][len(data[ik])-1]=='\\'):
 							data[ik]=data[ik][:-1]
 							data[ik]=data[ik] + 'CR'
@@ -312,7 +312,7 @@ for iterator in range(1,13):
 					if "," in data[1]: 
 						flag_comma = 1
 						data1=[e.strip() for e in data[1].split(',')]
-						for ij in xrange(0,len(data1)):
+						for ij in range(0,len(data1)):
 							if(data1[ij] and data1[ij][len(data1[ij])-1]=='\\'):
 								data1[ij]=data1[ij][:-1]
 								data1[ij]=data1[ij] + 'CR'

@@ -42,19 +42,19 @@ def linux_input(log_directory, channel_list, starting_date, ending_date):
                 #select relevant channels
                 if not os.path.exists(work_path):
                     if not((month_iterator == 2 and (day_iterator == 29 or day_iterator == 30 or day_iterator == 31)) or ((month_iterator == 4 or month_iterator == 6 or month_iterator == 9 or month_iterator == 11) and day_iterator == 31)):
-                        print "[Error | io/linuxInput] Path", work_path, "doesn't exist"
+                        print("[Error | io/linuxInput] Path", work_path, "doesn't exist")
                 else:
                     for channel_searched in os.listdir(work_path):
                         channel_name = channel_searched[:-4]
                         if channel_name in channel_list or (len(channel_list) == 1 and channel_list[0] == "ALL"):
                             file_path = work_path + channel_name + ".txt"
                             if not os.path.exists(file_path):
-                                print "[Error | io/linuxInput] Channel " + file_path + " doesn't exist"
+                                print("[Error | io/linuxInput] Channel " + file_path + " doesn't exist")
                                 continue
                             with open(file_path) as f:
                                 """ day_data stores all the lines of the file channel_name """
                                 if config.DEBUGGER:
-                                    print "Working on: " + file_path
+                                    print("Working on: " + file_path)
                                 
                                 day_data = f.readlines()             
                             

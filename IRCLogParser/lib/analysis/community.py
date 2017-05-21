@@ -32,13 +32,13 @@ def infomap_igraph(ig_graph, net_file_location=None, reduce_graph=False):
     community = ig_graph.community_infomap(edge_weights=ig_graph.es["weight"])
     codelength = community.codelength
 
-    print "code-length:", codelength
-    print "no. of communities: ", max(community.membership) + 1
-    print community
+    print("code-length:", codelength)
+    print("no. of communities: ", max(community.membership) + 1)
+    print(community)
 
     if config.DEBUGGER:
         for node in ig_graph.vs():
-            print str(node.index)+"\t"+str(ig_graph.vs["id"][node.index])
+            print(str(node.index)+"\t"+str(ig_graph.vs["id"][node.index]))
             # print str(node.index)+"\t"+str(id_to_name_map[g.vs["id"][node.index]])
 
     # http://stackoverflow.com/questions/21976889/plotting-communities-with-python-igraph
@@ -81,7 +81,7 @@ def select_top_vertices(ig_graph, pajek_type, top_channels=None, top_users=None,
     elif pajek_type == "UU":
         nodes_to_delete = delete_helper(top_id_for_user_graphs) 
     else:
-        print "ERROR"
+        print("ERROR")
 
     ig_graph.delete_vertices(nodes_to_delete)
     
@@ -111,8 +111,8 @@ def convert_id_name_community(max_hash, community_txt_file, hash_file_txt, reduc
             hash_value[int(a)] = b
 
     '''CHANGE COMMUNUITES FROM IDS TO NAME'''
-    print "{: >20} {: >1}".format("NAME", "CommunityID")
-    print "================================="
+    print("{: >20} {: >1}".format("NAME", "CommunityID"))
+    print("=================================")
 
     if not reduced_community:
         c = 0
@@ -123,10 +123,10 @@ def convert_id_name_community(max_hash, community_txt_file, hash_file_txt, reduc
                 a = int(a)
                 b = int(b)
                 if b != c:
-                    print "---------------------------"
+                    print("---------------------------")
                     c += 1
                 # print  hash_value[a]+"\t"+str(b)
-                print "{: >20} {: >1}".format(hash_value[a], b)
+                print("{: >20} {: >1}".format(hash_value[a], b))
 
     else:
         '''USED FOR REDUCED COMMUNITIES'''
@@ -146,7 +146,7 @@ def convert_id_name_community(max_hash, community_txt_file, hash_file_txt, reduc
                 a = int(a)
                 b = int(b)
                 if b != c:
-                    print "---------------------------"
+                    print("---------------------------")
                     c += 1
                 if hash_value[a] in top_names:
-                    print "{: >20} {: >1}".format(hash_value[a], b)
+                    print("{: >20} {: >1}".format(hash_value[a], b))

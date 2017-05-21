@@ -34,13 +34,13 @@ def svdOnKeywords(log_directory, channel_name, output_directory, startingDate, s
 
 		N = math.sqrt(temp)
 		temp = []
-		keyword_normal_freq_for_user = [0 for i in xrange(len(keyword_list))] #to be used as column
+		keyword_normal_freq_for_user = [0 for i in range(len(keyword_list))] #to be used as column
 		
 		for keyword_tuple in keywords:
 			keyword = keyword_tuple[0]
 			normal_freq = keyword_tuple[1]/N
 			keyword_normal_freq_for_user[keyword_list.index(keyword)] = normal_freq
-			for i in xrange(0,keyword_tuple[1]):
+			for i in range(0,keyword_tuple[1]):
 				temp.append(keyword)
 		
 		keyword_for_user.append(temp)
@@ -71,10 +71,10 @@ def svdOnKeywords(log_directory, channel_name, output_directory, startingDate, s
 		return document.count(term)
 
 	for doc in mydoclist:
-		print 'The doc is "' + ",".join(doc)+ '"'
+		print('The doc is "' + ",".join(doc)+ '"')
 		tf_vector = [tf(word, doc) for word in vocabulary]
 		tf_vector_string = ', '.join(format(freq, 'd') for freq in tf_vector)
-		print 'The tf vector for Document %d is [%s]' % ((mydoclist.index(doc)+1), tf_vector_string)
+		print('The tf vector for Document %d is [%s]' % ((mydoclist.index(doc)+1), tf_vector_string))
 		doc_term_matrix.append(tf_vector)
 
 	def numDocsContaining(word, doclist):
@@ -101,7 +101,7 @@ def svdOnKeywords(log_directory, channel_name, output_directory, startingDate, s
 
 	my_idf_matrix = build_idf_matrix(my_idf_vector)
 
-	print "idf-matrix" , my_idf_matrix
+	print("idf-matrix" , my_idf_matrix)
 
 	 # Now we have converted our IDF vector into a matrix of size BxB, where the diagonal is the IDF vector. That means we can perform now multiply every term frequency vector by the inverse document frequency matrix. Then to make sure we are also accounting for words that appear too frequently within documents, we'll normalize each document such that the L2 norm = 1.
 	doc_term_matrix_tfidf = []
@@ -115,8 +115,8 @@ def svdOnKeywords(log_directory, channel_name, output_directory, startingDate, s
 	for tf_vector in doc_term_matrix_tfidf:
 		doc_term_matrix_tfidf_l2.append(l2_normalizer(tf_vector))
 																			
-	print vocabulary
-	print doc_term_matrix_tfidf_l2# np.matrix() just to make it easier to look at
+	print(vocabulary)
+	print(doc_term_matrix_tfidf_l2)# np.matrix() just to make it easier to look at
 
 	'''
 		SVD
@@ -139,6 +139,6 @@ def svdOnKeywords(log_directory, channel_name, output_directory, startingDate, s
 		Dt = vt[:svd_dimensions,:]
 		vectors = numpy.transpose(numpy.dot(S, Dt))
 
-		print "S", S
-		print "T", T
-		print "Dt", Dt
+		print("S", S)
+		print("T", T)
+		print("Dt", Dt)

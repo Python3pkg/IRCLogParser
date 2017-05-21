@@ -46,10 +46,10 @@ for iterator in range(2,3):
 
 
 
-		for i in xrange(0,len(nicks)):
+		for i in range(0,len(nicks)):
 			nicks[i] = nicks[i][1:-1]     #removed <> from the nicknames
 				
-		for i in xrange(0,len(nicks)):
+		for i in range(0,len(nicks)):
 			if(nicks[i][len(nicks[i])-1]=='\\'):
 				nicks[i]=nicks[i][:-1]
 				nicks[i]=nicks[i]+'CR'
@@ -127,7 +127,7 @@ for iterator in range(2,3):
 					data[1]=data[1][1:]
 					if not data[1]:
 						break
-					for ik in xrange(0,len(data)):
+					for ik in range(0,len(data)):
 						if(data[ik] and data[ik][len(data[ik])-1]=='\\'):
 							data[ik]=data[ik][:-1]
 							data[ik]=data[ik] + 'CR'
@@ -151,7 +151,7 @@ for iterator in range(2,3):
 					if "," in data[1]: 
 						flag_comma = 1
 						data1=[e.strip() for e in data[1].split(',')]
-						for ij in xrange(0,len(data1)):
+						for ij in range(0,len(data1)):
 							if(data1[ij] and data1[ij][len(data1[ij])-1]=='\\'):
 								data1[ij]=data1[ij][:-1]
 								data1[ij]=data1[ij] + 'CR'

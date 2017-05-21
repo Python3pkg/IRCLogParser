@@ -9,7 +9,7 @@ def rearrange_matrix_comm(adj_csv_file, reducedHash, updatedCUcommunity_withName
 
 	my_matrix = []
 	for line in temp:
-		my_matrix.append(map(float, line))
+		my_matrix.append(list(map(float, line)))
 
 	# print my_matrix
 
@@ -27,8 +27,8 @@ def rearrange_matrix_comm(adj_csv_file, reducedHash, updatedCUcommunity_withName
 			else:
 				original_column_order[a] = b
 
-	print len(original_row_order)
-	print len(original_column_order)
+	print(len(original_row_order))
+	print(len(original_column_order))
 
 	required_row_order = []
 	required_column_order = []
@@ -51,11 +51,11 @@ def rearrange_matrix_comm(adj_csv_file, reducedHash, updatedCUcommunity_withName
 		if name not in required_column_order:
 			required_column_order.append(name)
 
-	print len(required_row_order)
-	print len(required_column_order)
+	print(len(required_row_order))
+	print(len(required_column_order))
 
-	print required_row_order
-	print required_column_order
+	print(required_row_order)
+	print(required_column_order)
 
 	old_matrix = np.array(my_matrix)
 

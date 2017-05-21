@@ -2,14 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 from sklearn.metrics import mean_squared_error
-import config
-import util
+from . import config
+from . import util
 import igraph
 from random import randint
 import math
 import matplotlib.pyplot as plt
 import os
-import in_out.saver as saver
+from . import in_out.saver as saver
 from numpy.random import normal
 from scipy.optimize import curve_fit
 from scipy import stats
@@ -36,7 +36,7 @@ def generate_probability_distribution(data, initial_rows_filter):
     total = sum(topRows)
     freq = [x/float(total) for x in topRows]
     
-    return range(0, initial_rows_filter), freq
+    return list(range(0, initial_rows_filter)), freq
 
 
 # FOR CL and RT anaylysis
@@ -67,7 +67,7 @@ def exponential_curve_fit_and_plot(data, initial_rows_filter, output_directory, 
     [a, b, c] = popt
     mse = mean_squared_error(util.exponential_curve_func(x, *popt), y)
     if config.DEBUGGER:
-        print "CURVE FIT", output_file_name, "|", a, b, c, "MSE =", mse
+        print("CURVE FIT", output_file_name, "|", a, b, c, "MSE =", mse)
 
     plt.figure()
     plt.plot(x, y, 'b-', label="Data")
@@ -110,7 +110,7 @@ def exponential_curve_fit_and_plot_x_shifted(data, initial_rows_filter, output_d
     x_pdf, y_pdf = generate_probability_distribution(data, initial_rows_filter)
 
     first_non_zero_index = -1
-    if filter(lambda x: x != 0, y_pdf):
+    if [x for x in y_pdf if x != 0]:
         first_non_zero_index = y_pdf.index(filter(lambda x: x != 0, y_pdf)[0])
 
     x = np.array(x_pdf[0: initial_rows_filter - first_non_zero_index])
@@ -120,7 +120,7 @@ def exponential_curve_fit_and_plot_x_shifted(data, initial_rows_filter, output_d
     [a, b, c] = popt
     mse = mean_squared_error(util.exponential_curve_func(x, *popt), y)
     if config.DEBUGGER:
-        print "CURVE FIT", output_file_name, "|", a, b, c, "x-shift =", first_non_zero_index, "MSE =", mse
+        print("CURVE FIT", output_file_name, "|", a, b, c, "x-shift =", first_non_zero_index, "MSE =", mse)
     
     plt.figure()
     plt.plot(x, y, 'b-', label="Data")
@@ -129,7 +129,7 @@ def exponential_curve_fit_and_plot_x_shifted(data, initial_rows_filter, output_d
     axes = plt.gca()
     # axes.set_xlim([0 ,20])
     axes.set_ylim([0, 1])
-    plt.xticks(range(0, 20, 5), xrange(first_non_zero_index, initial_rows_filter, 5), size='small')
+    plt.xticks(list(range(0, 20, 5)), range(first_non_zero_index, initial_rows_filter, 5), size='small')
     
     plt.legend()
     # plt.show()
@@ -211,7 +211,7 @@ def plot_infomap_igraph(nx_graph, membership, output_directory, output_file_name
     igraph.plot(nx_graph, (output_directory + "/" + output_file_name + ".png"), **visual_style)
 
     if config.DEBUGGER:
-        print "INFOMAPS visualisation for", output_file_name, "completed"
+        print("INFOMAPS visualisation for", output_file_name, "completed")
 
 
 def generate_log_plots(filter_val, plot_data, output_directory, output_file_name):
@@ -236,7 +236,7 @@ def generate_log_plots(filter_val, plot_data, output_directory, output_file_name
         sum_each_row.append(sum(row[1:]))
 
     # print sum_each_row
-    x_axis_log = [math.log(i) for i in xrange(1, filter_val)]   # ignore degree 0
+    x_axis_log = [math.log(i) for i in range(1, filter_val)]   # ignore degree 0
     y_axis_log = [math.log(i) if i>0 else 0 for i in sum_each_row[1:filter_val] ]   # ignore degree 01
 
     calc_plot_linear_fit(x_axis_log, y_axis_log, output_file_name, output_directory)
@@ -263,7 +263,7 @@ def calc_plot_linear_fit(x_in, y_in, output_directory, output_file_name):
     slope, intercept, r_value, p_value, std_err = stats.linregress(x_in, y_in)
     line = [slope*xi+intercept for xi in x_in]
 
-    print str(slope)+"\t"+str(intercept)+"\t"+str(r_value**2)+"\t"+str(mean_squared_error(y, line))
+    print(str(slope)+"\t"+str(intercept)+"\t"+str(r_value**2)+"\t"+str(mean_squared_error(y, line)))
     saver.check_if_dir_exists(output_directory)
 
     if config.USE_PYPLOT:
@@ -403,8 +403,8 @@ def matplotlob_csv_heatmap_generator(csv_file, output_directory, output_file_nam
         null
     """
     
-    column_labels = map(str, range(1, 32))
-    row_labels = map(str, range(1, 49))
+    column_labels = list(map(str, list(range(1, 32))))
+    row_labels = list(map(str, list(range(1, 49))))
     
     data = genfromtxt(csv_file, delimiter=',')
     print(data)

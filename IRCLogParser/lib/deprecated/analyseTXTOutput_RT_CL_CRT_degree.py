@@ -13,7 +13,7 @@ def analyse_monthly_RT_CL_CRT_degree(file_loc, log_type):
 					# print line.strip()
 
 		# print len(file_lines)
-		print "[CL] [Monthly2013] [ALL_CHANNELS] [a * np.exp(-b * x) + c]\n"
+		print("[CL] [Monthly2013] [ALL_CHANNELS] [a * np.exp(-b * x) + c]\n")
 
 		i = 0
 		while i < len(file_lines):
@@ -41,14 +41,14 @@ def analyse_monthly_RT_CL_CRT_degree(file_loc, log_type):
 				j+=2
 			# print len(list_a), len(list_b), len(list_c)
 			# print list_a, list_b, list_c
-			print channel
-			print "==========================="
-			print "Var", "Minimum", "Maximum", "Average"
-			print "==========================="
-			print " A ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a))
-			print " B ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b))
-			print " C ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c))
-			print "\n"
+			print(channel)
+			print("===========================")
+			print("Var", "Minimum", "Maximum", "Average")
+			print("===========================")
+			print(" A ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a)))
+			print(" B ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b)))
+			print(" C ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c)))
+			print("\n")
 
 			i+=24
 	
@@ -64,7 +64,7 @@ def analyse_monthly_RT_CL_CRT_degree(file_loc, log_type):
 
 
 		# print len(file_lines)
-		print "[CRT] [Monthly2013] [ALL_CHANNELS] [a * np.exp(-b * x) + c]\n"
+		print("[CRT] [Monthly2013] [ALL_CHANNELS] [a * np.exp(-b * x) + c]\n")
 		list_a = []
 		list_b = []
 		list_c = []
@@ -93,15 +93,15 @@ def analyse_monthly_RT_CL_CRT_degree(file_loc, log_type):
 			# print list_a, list_b, list_c
 
 			i+=24
-		print channel
-		print "==========================="
-		print "Var", "Minimum", "Maximum", "Average"
-		print "==========================="
-		print "  A  ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a))
-		print "  B  ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b))
-		print "  C  ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c))
-		print "shift", "{0:.4f}".format(min(list_shift)), "{0:.4f}".format(max(list_shift)), "{0:.4f}".format(np.average(list_shift))
-		print "\n"
+		print(channel)
+		print("===========================")
+		print("Var", "Minimum", "Maximum", "Average")
+		print("===========================")
+		print("  A  ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a)))
+		print("  B  ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b)))
+		print("  C  ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c)))
+		print("shift", "{0:.4f}".format(min(list_shift)), "{0:.4f}".format(max(list_shift)), "{0:.4f}".format(np.average(list_shift)))
+		print("\n")
 
 	elif log_type=="degree":
 		'''
@@ -115,7 +115,7 @@ def analyse_monthly_RT_CL_CRT_degree(file_loc, log_type):
 
 
 		# print len(file_lines)
-		print "[Node] [Monthly2013] [ALL_CHANNELS] [a + bx]"
+		print("[Node] [Monthly2013] [ALL_CHANNELS] [a + bx]")
 		i = 0
 		while i < len(file_lines):
 			j= 0
@@ -148,16 +148,16 @@ def analyse_monthly_RT_CL_CRT_degree(file_loc, log_type):
 			# print values
 			# print len(list_aO), len(list_aI)
 			# # print list_a, list_b, list_c
-			print channel
-			print "===================================="
-			print "Type ", "Var", "Minimum", "Maximum", "Average"
-			print "===================================="
-			print " IN  ", " A ", "{0:.4f}".format(min(list_aI)), "{0:.4f}".format(max(list_aI)), "{0:.4f}".format(np.average(list_aI))
-			print " IN  ", " B ", "{0:.5f}".format(min(list_bI)), "{0:.5f}".format(max(list_bI)), "{0:.5f}".format(np.average(list_bI))
+			print(channel)
+			print("====================================")
+			print("Type ", "Var", "Minimum", "Maximum", "Average")
+			print("====================================")
+			print(" IN  ", " A ", "{0:.4f}".format(min(list_aI)), "{0:.4f}".format(max(list_aI)), "{0:.4f}".format(np.average(list_aI)))
+			print(" IN  ", " B ", "{0:.5f}".format(min(list_bI)), "{0:.5f}".format(max(list_bI)), "{0:.5f}".format(np.average(list_bI)))
 
-			print " OUT ", " A ", "{0:.4f}".format(min(list_aO)), "{0:.4f}".format(max(list_aO)), "{0:.4f}".format(np.average(list_aO))
-			print " OUT ", " B ", "{0:.5f}".format(min(list_bO)), "{0:.5f}".format(max(list_bO)), "{0:.5f}".format(np.average(list_bO))
-			print "\n"
+			print(" OUT ", " A ", "{0:.4f}".format(min(list_aO)), "{0:.4f}".format(max(list_aO)), "{0:.4f}".format(np.average(list_aO)))
+			print(" OUT ", " B ", "{0:.5f}".format(min(list_bO)), "{0:.5f}".format(max(list_bO)), "{0:.5f}".format(np.average(list_bO)))
+			print("\n")
 			i+=36
 
 
@@ -174,7 +174,7 @@ def analyse_weekly_RT_CL_CRT_degree(file_loc, log_type):
 					file_lines.append(line.strip())
 
 
-		print len(file_lines)
+		print(len(file_lines))
 		list_a = []
 		list_b = []
 		list_c = []
@@ -197,12 +197,12 @@ def analyse_weekly_RT_CL_CRT_degree(file_loc, log_type):
 			# print values
 			i+=2
 
-		print len(list_a), len(list_b), len(list_c)
+		print(len(list_a), len(list_b), len(list_c))
 		# print list_a, list_b, list_c
-		print "Var", "Minimum", "Maximum", "Average"
-		print " A ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a))
-		print " B ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b))
-		print " C ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c))
+		print("Var", "Minimum", "Maximum", "Average")
+		print(" A ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a)))
+		print(" B ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b)))
+		print(" C ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c)))
 
 	elif log_type == "CRT":
 		'''
@@ -215,7 +215,7 @@ def analyse_weekly_RT_CL_CRT_degree(file_loc, log_type):
 					file_lines.append(line.strip())
 
 
-		print len(file_lines)
+		print(len(file_lines))
 		list_a = []
 		list_b = []
 		list_c = []
@@ -242,13 +242,13 @@ def analyse_weekly_RT_CL_CRT_degree(file_loc, log_type):
 			# print values
 			i+=2
 
-		print len(list_a), len(list_b), len(list_c), len(list_shift)
+		print(len(list_a), len(list_b), len(list_c), len(list_shift))
 		# print list_a, list_b, list_c
-		print " Var ", "Minimum", "Maximum", "Average"
-		print "  A  ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a))
-		print "  B  ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b))
-		print "  C  ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c))
-		print "shift", "{0:.4f}".format(min(list_shift)), "{0:.4f}".format(max(list_shift)), "{0:.4f}".format(np.average(list_shift))
+		print(" Var ", "Minimum", "Maximum", "Average")
+		print("  A  ", "{0:.5f}".format(min(list_a)), "{0:.5f}".format(max(list_a)), "{0:.5f}".format(np.average(list_a)))
+		print("  B  ", "{0:.5f}".format(min(list_b)), "{0:.5f}".format(max(list_b)), "{0:.5f}".format(np.average(list_b)))
+		print("  C  ", "{0:.5f}".format(min(list_c)), "{0:.5f}".format(max(list_c)), "{0:.5f}".format(np.average(list_c)))
+		print("shift", "{0:.4f}".format(min(list_shift)), "{0:.4f}".format(max(list_shift)), "{0:.4f}".format(np.average(list_shift)))
 
 	elif log_type=="degree":
 		'''
@@ -261,7 +261,7 @@ def analyse_weekly_RT_CL_CRT_degree(file_loc, log_type):
 					file_lines.append(line.strip())
 
 
-		print len(file_lines)
+		print(len(file_lines))
 		list_aT = []
 		list_bT = []
 
@@ -299,15 +299,15 @@ def analyse_weekly_RT_CL_CRT_degree(file_loc, log_type):
 			# print values
 			i+=4
 
-		print len(list_aT), len(list_aO), len(list_aI)
+		print(len(list_aT), len(list_aO), len(list_aI))
 		# # print list_a, list_b, list_c
-		print "Type ", "Var", "Minimum", "Maximum", "Average"
-		print "TOTAL", " A ", "{0:.5f}".format(min(list_aT)), "{0:.5f}".format(max(list_aT)), "{0:.5f}".format(np.average(list_aT))
-		print "TOTAL", " B ", "{0:.4f}".format(min(list_bT)), "{0:.4f}".format(max(list_bT)), "{0:.4f}".format(np.average(list_bT))
+		print("Type ", "Var", "Minimum", "Maximum", "Average")
+		print("TOTAL", " A ", "{0:.5f}".format(min(list_aT)), "{0:.5f}".format(max(list_aT)), "{0:.5f}".format(np.average(list_aT)))
+		print("TOTAL", " B ", "{0:.4f}".format(min(list_bT)), "{0:.4f}".format(max(list_bT)), "{0:.4f}".format(np.average(list_bT)))
 
-		print " IN  ", " A ", "{0:.5f}".format(min(list_aI)), "{0:.5f}".format(max(list_aI)), "{0:.5f}".format(np.average(list_aI))
-		print " IN  ", " B ", "{0:.4f}".format(min(list_bI)), "{0:.4f}".format(max(list_bI)), "{0:.4f}".format(np.average(list_bI))
+		print(" IN  ", " A ", "{0:.5f}".format(min(list_aI)), "{0:.5f}".format(max(list_aI)), "{0:.5f}".format(np.average(list_aI)))
+		print(" IN  ", " B ", "{0:.4f}".format(min(list_bI)), "{0:.4f}".format(max(list_bI)), "{0:.4f}".format(np.average(list_bI)))
 
-		print " OUT ", " A ", "{0:.5f}".format(min(list_aO)), "{0:.5f}".format(max(list_aO)), "{0:.5f}".format(np.average(list_aO))
-		print " OUT ", " B ", "{0:.4f}".format(min(list_bO)), "{0:.4f}".format(max(list_bO)), "{0:.4f}".format(np.average(list_bO))
+		print(" OUT ", " A ", "{0:.5f}".format(min(list_aO)), "{0:.5f}".format(max(list_aO)), "{0:.5f}".format(np.average(list_aO)))
+		print(" OUT ", " B ", "{0:.4f}".format(min(list_bO)), "{0:.4f}".format(max(list_bO)), "{0:.4f}".format(np.average(list_bO)))
 

@@ -73,7 +73,7 @@ def conv_len_conv_refr_time(log_dict, nicks, nick_same_list):
 		conversations[index].append(config.HOURS_PER_DAY*config.MINS_PER_HOUR*dateadd + int(line[1:6][0:2])*config.MINS_PER_HOUR + int(line[1:6][3:5]))
 		return conversations
 
-	for day_content_all_channels in log_dict.values():
+	for day_content_all_channels in list(log_dict.values()):
 		for day_content in day_content_all_channels:
 			day_log = day_content["log_data"]
 
@@ -140,8 +140,8 @@ def conv_len_conv_refr_time(log_dict, nicks, nick_same_list):
 
 	#To plot CDF we store the CL and CRT values and their number of occurences as shown above.
 
-	row_cl = zip(graphx1, graphy1)
-	row_crt = zip(graphx2, graphy2)
+	row_cl = list(zip(graphx1, graphy1))
+	row_crt = list(zip(graphx2, graphy2))
 	
 	return row_cl, row_crt
 
@@ -193,7 +193,7 @@ def response_time(log_dict, nicks, nick_same_list):
 						break		
 		return conversations, nick_receiver, send_time				
 
-	for day_content_all_channels in log_dict.values():
+	for day_content_all_channels in list(log_dict.values()):
 		for day_content in day_content_all_channels:
 			day_log = day_content["log_data"]
 
@@ -288,5 +288,5 @@ def response_time(log_dict, nicks, nick_same_list):
 		graph_x_axis.append(i)		
 
 	#Finally storing the RT values along with their frequencies in a csv file. 
-	rows_rt = zip(graph_x_axis, graph_y_axis)
+	rows_rt = list(zip(graph_x_axis, graph_y_axis))
 	return rows_rt	

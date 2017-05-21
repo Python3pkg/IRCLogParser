@@ -39,7 +39,7 @@ def nick_change_graph(log_dict, DAY_BY_DAY_ANALYSIS=False):
     nick_change_day_list = []
     aggregate_nick_change_graph = nx.MultiDiGraph() # graph for nick changes in the whole time span (not day to day)
     
-    for day_content_all_channels in log_dict.values():      
+    for day_content_all_channels in list(log_dict.values()):      
         
         for day_content in day_content_all_channels:            
                 day_log = day_content["log_data"]                   
@@ -119,15 +119,15 @@ def top_keywords_for_nick(user_keyword_freq_dict, nick, threshold, min_words_spo
 
             if len(top_keywords) == 0:
                 if config.DEBUGGER:
-                    print "No word's normalised score crosses the value of", threshold
+                    print("No word's normalised score crosses the value of", threshold)
                 top_keywords = None
         else:
             if config.DEBUGGER:
-                print "No message sent by nick", nick
+                print("No message sent by nick", nick)
             pass
     else:
         if config.DEBUGGER:
-            print "Not enough words spoken by", nick, "; spoke" ,int(total_freq), "words only, required", min_words_spoken
+            print("Not enough words spoken by", nick, "; spoke" ,int(total_freq), "words only, required", min_words_spoken)
         pass
 
     return (top_keywords, top_keywords_normal_freq)
@@ -168,7 +168,7 @@ def keywords(log_dict, nicks, nick_same_list):
                 nick_sender_receiver = nick_comp
         return nick_sender_receiver    
 
-    for day_content_all_channels in log_dict.values():
+    for day_content_all_channels in list(log_dict.values()):
         for day_content in day_content_all_channels:
             day_log = day_content["log_data"]
             for line in day_log:
@@ -221,7 +221,7 @@ def keywords(log_dict, nicks, nick_same_list):
                     word_list_lemmatized = []
                     
                     try:     
-                        word_list_lemmatized = map(lmtzr.lemmatize, map(lambda x: lmtzr.lemmatize(x, 'v'), word_list))
+                        word_list_lemmatized = list(map(lmtzr.lemmatize, [lmtzr.lemmatize(x, 'v') for x in word_list]))
                     except UnicodeDecodeError:
                         pass
 
@@ -254,7 +254,7 @@ def keywords(log_dict, nicks, nick_same_list):
     for dictonary in user_words_dict:
         try:
             matrix = count_vect.fit_transform(dictonary['words'])
-            freqs = [[word, matrix.getcol(idx).sum()] for word, idx in count_vect.vocabulary_.items()]
+            freqs = [[word, matrix.getcol(idx).sum()] for word, idx in list(count_vect.vocabulary_.items())]
             keywords = sorted(freqs, key = lambda x: -x[1])
             total_freq = 0.0
             for freq_tuple in keywords:
@@ -268,10 +268,10 @@ def keywords(log_dict, nicks, nick_same_list):
     for data in user_keyword_freq_dict:
         keywords, normal_scores = top_keywords_for_nick(user_keyword_freq_dict, data['nick'], config.KEYWORDS_THRESHOLD, config.KEYWORDS_MIN_WORDS)
         if config.DEBUGGER:    
-            print "Nick:", data['nick']
-            print "Keywords with normalised score > 0.01\n", keywords
-            print "Their Normal scores\n", normal_scores
-            print "\n"
+            print("Nick:", data['nick'])
+            print("Keywords with normalised score > 0.01\n", keywords)
+            print("Their Normal scores\n", normal_scores)
+            print("\n")
         if keywords:
             keywords_filtered.append({'nick': data['nick'], 'keywords': keywords})
     
@@ -312,7 +312,7 @@ def keywords_clusters(log_dict, nicks, nick_same_list):
     for user_words_dict in user_words_dict_list:
         corpus.append(" ".join(map(str,user_words_dict['words'])))
 
-    print "No. of users", len(corpus)
+    print("No. of users", len(corpus))
 
     #TF_IDF
     stop_word_without_apostrophe = []
@@ -323,11 +323,11 @@ def keywords_clusters(log_dict, nicks, nick_same_list):
     
     vectorizer = TfidfVectorizer(max_df=0.5, min_df=2, stop_words=stop_words_extended,
                                                                  use_idf=True)
-    print "Extracting features from the training dataset using TF-IDF"
+    print("Extracting features from the training dataset using TF-IDF")
     t0 = time()
     tf_idf = vectorizer.fit_transform(corpus)
-    print("done in %fs" % (time() - t0))
-    print "n_samples: %d, n_features: %d \n" % tf_idf.shape
+    print(("done in %fs" % (time() - t0)))
+    print("n_samples: %d, n_features: %d \n" % tf_idf.shape)
 
     # LSA
     if config.ENABLE_SVD:
@@ -343,21 +343,21 @@ def keywords_clusters(log_dict, nicks, nick_same_list):
 
         tf_idf = lsa.fit_transform(tf_idf)
 
-        print("done in %fs" % (time() - t0))
+        print(("done in %fs" % (time() - t0)))
 
         explained_variance = svd.explained_variance_ratio_.sum()
-        print("Explained variance of the SVD step: {}%".format(
-                int(explained_variance * 100)))
+        print(("Explained variance of the SVD step: {}%".format(
+                int(explained_variance * 100))))
 
     if not config.ENABLE_ELBOW_METHOD_FOR_K:
         # CLUSTERING
         km = KMeans(n_clusters=config.NUMBER_OF_CLUSTERS, init='k-means++',
                     random_state=3465, max_iter=100, n_init=8)
 
-        print("Clustering sparse data with %s" % km)
+        print(("Clustering sparse data with %s" % km))
         t0 = time()
         km.fit(tf_idf)
-        print("done in %0.3fs" % (time() - t0))
+        print(("done in %0.3fs" % (time() - t0)))
         print("Top terms per cluster:")        
         
         order_centroids = build_centroid(km)            
@@ -365,20 +365,20 @@ def keywords_clusters(log_dict, nicks, nick_same_list):
 
         terms = vectorizer.get_feature_names()
         for i in range(config.NUMBER_OF_CLUSTERS):
-                print("Cluster %d:" % i)
+                print(("Cluster %d:" % i))
                 for ind in order_centroids[i, :config.SHOW_N_WORDS_PER_CLUSTER]:
-                        print terms[ind]+"\t"+str(round(km.cluster_centers_[i][ind], 2))
-                print ""
+                        print(terms[ind]+"\t"+str(round(km.cluster_centers_[i][ind], 2)))
+                print("")
 
     else:
-        print "============ELBOW METHOD ============="
+        print("============ELBOW METHOD =============")
 
         sum_squared_errors_list = []
         avg_sum_squared_errors_list = []
 
-        for i in xrange(1, config.CHECK_K_TILL + 1):
+        for i in range(1, config.CHECK_K_TILL + 1):
 
-            print "\n===>> K = ", i
+            print("\n===>> K = ", i)
 
             km = KMeans(n_clusters=i, init='k-means++', max_iter=100, n_init=8)
 
@@ -393,20 +393,20 @@ def keywords_clusters(log_dict, nicks, nick_same_list):
             sum_squared_errors = sum(distance_from_nearest_centroid)
             avg_sum_squared_errors = sum_squared_errors/tf_idf.shape[0] 
 
-            print "Sum Squared Error =", sum_squared_errors
-            print "Avg Sum Squared Error =", avg_sum_squared_errors
+            print("Sum Squared Error =", sum_squared_errors)
+            print("Avg Sum Squared Error =", avg_sum_squared_errors)
 
             sum_squared_errors_list.append(sum_squared_errors)
             avg_sum_squared_errors_list.append(avg_sum_squared_errors)
             print("Top terms per cluster:")
             terms = vectorizer.get_feature_names()
             for i in range(i):
-                    print("Cluster %d:" % i)
+                    print(("Cluster %d:" % i))
                     for ind in order_centroids[i, :config.SHOW_N_WORDS_PER_CLUSTER]:
-                            print(' %s' % terms[ind])
+                            print((' %s' % terms[ind]))
                     print()
 
-        plt.plot(range(1, config.CHECK_K_TILL+1), sum_squared_errors_list, 'b*-')
+        plt.plot(list(range(1, config.CHECK_K_TILL+1)), sum_squared_errors_list, 'b*-')
         # ax.plot(K[kIdx], avgWithinSS[kIdx], marker='o', markersize=12, 
         # markeredgewidth=2, markeredgecolor='r', markerfacecolor='None')
         plt.grid(True)
@@ -416,7 +416,7 @@ def keywords_clusters(log_dict, nicks, nick_same_list):
         plt.show()
 
         #NOTE RANDOM OUTPUTS BECAUSE OF RANDOM INITIALISATION
-        print "NOTE RANDOM OUTPUTS BECAUSE OF RANDOM INITIALISATION"
+        print("NOTE RANDOM OUTPUTS BECAUSE OF RANDOM INITIALISATION")
 
 def extended_stop_words(nicks_for_stop_words, stop_word_without_apostrophe):
     stop_words_extended = text.ENGLISH_STOP_WORDS.union(common_english_words.words).union(nicks_for_stop_words).union(stop_word_without_apostrophe).union(custom_stop_words.words).union(custom_stop_words.slangs)
